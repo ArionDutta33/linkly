@@ -1,11 +1,4 @@
-import {
-  Calendar,
-  Home,
-  HomeIcon,
-  Search,
-  Settings,
-  SquarePlus,
-} from "lucide-react";
+import { Home, LogOutIcon, MoveLeftIcon, SquarePlus } from "lucide-react";
 
 import {
   Sidebar,
@@ -18,9 +11,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "../theme/mode-toogle";
-// Menu items.
+import { Button } from "../ui/button";
+import { useAuth } from "@/provider/AuthProvider";
+import { toast } from "sonner";
+
 const items = [
   {
     title: "Home",
@@ -32,28 +28,21 @@ const items = [
     url: "/dashboard/create",
     icon: SquarePlus,
   },
+
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Go Back",
+    title: "Back to Main ",
     url: "/",
-    icon: HomeIcon,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    icon: MoveLeftIcon,
   },
 ];
 
 export function AppSidebar() {
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarGroup className="border">
+        <SidebarGroup className="">
           <SidebarGroupLabel className="text-sm text-black font-medium mb-4">
             linkly.io
           </SidebarGroupLabel>
@@ -75,29 +64,39 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup className="  mt-auto mb-10">
-          {/* <SidebarGroupLabel className="text-sm text-black font-medium mb-4">
-            linkly.io
-          </SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu className="px-2 flex">
-              <div className="my-4">
+              <div className="my-4 space-x-4">
                 {" "}
-                <ModeToggle />
+                <span>Toggle mode</span> <ModeToggle />
               </div>
               <div className="flex  gap-2">
                 <Avatar>
                   <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>
+                    {user?.username
+                      ? user.username.slice(0, 2).toUpperCase()
+                      : "?"}
+                  </AvatarFallback>
                 </Avatar>
                 <div>
                   <div className="tracking-tighter text-black dark:text-white">
-                    Arion Dutta
+                    {user?.username}
                   </div>
-                  <div className="text-xs tracking-tighter">
-                    ariondutta333@outlook.com
-                  </div>
+                  <div className="text-xs tracking-tighter">{user?.email}</div>
                 </div>
               </div>
+              <Button
+                onClick={async () => {
+                  await logout();
+                  toast.success("Logged out");
+                  navigate("/");
+                }}
+                className=" mt-4"
+              >
+                Logout
+                <LogOutIcon />
+              </Button>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -6,8 +6,9 @@ const Hero = () => {
   console.log(theme);
   return (
     <div className="  mt-12 gap-4 flex flex-col items-center">
-      <div className="text-4xl font-bold text-   w-[40vw] text-center">
-        Capture Every Link That Inspires, Informs, or Matters to You.
+      <div className="text-4xl font-bold leading-12  w-[40vw] text-center">
+        Capture Every Link That Inspires, Informs, or{" "}
+        <span className="bg-green-800 px-2">Matters to You.</span>
       </div>
       <p className="w-[40vw] text-center tracking-tight text-[gray] text-sm">
         The web is full of great content—but finding it again later? That’s the
@@ -22,6 +23,7 @@ const Hero = () => {
           alt=""
         />
       </div>
+      <div>cehck</div>
     </div>
   );
 };

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
-  AlertDialogFooter,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
@@ -46,6 +45,7 @@ const EditLink: React.FC<EditLinkProps> = ({ item, onUpdate }) => {
       console.log("Shape of response->", response.data);
 
       onUpdate(response.data);
+      toast.success("Link edited");
       setIsEditOpen(false);
     } catch (error) {
       let errorMsg = "Something went wrong";
@@ -75,7 +75,7 @@ const EditLink: React.FC<EditLinkProps> = ({ item, onUpdate }) => {
       </AlertDialogTrigger>
 
       <AlertDialogContent className=" ">
-        <AlertDialogTitle>Edit your links eas</AlertDialogTitle>
+        <AlertDialogTitle>Edit your links easily</AlertDialogTitle>
 
         <div className=" w-full border flex items-center justify-center">
           <div className=" w-full">
@@ -85,7 +85,6 @@ const EditLink: React.FC<EditLinkProps> = ({ item, onUpdate }) => {
             >
               <div className="space-y-4">
                 <Label>Link title</Label>
-                {/* register your input into the hook by invoking the "register" function */}
                 <Input
                   defaultValue={item.link_title}
                   {...register("link_title", { required: true })}
@@ -95,14 +94,12 @@ const EditLink: React.FC<EditLinkProps> = ({ item, onUpdate }) => {
                 )}
               </div>
 
-              {/* include validation with required or other standard HTML validation rules */}
               <div className="my-4 space-y-4">
                 <Label>Paste the link </Label>
                 <Input
                   defaultValue={item.link}
                   {...register("link", { required: true })}
                 />
-                {/* errors will return when field validation fails  */}
                 {errors.link && (
                   <span className="text-red-500">This field is required</span>
                 )}
@@ -113,27 +110,28 @@ const EditLink: React.FC<EditLinkProps> = ({ item, onUpdate }) => {
                   defaultValue={item.description}
                   {...register("description", { maxLength: 100 })}
                 />
-                {/* errors will return when field validation fails  */}
                 {errors.description && (
                   <span className="text-red-500">Character limit exceeded</span>
                 )}
               </div>
 
-              <Button disabled={loading} className="my-4">
-                {loading ? "Editing..." : "Edit"}
-              </Button>
+              <div className="space-x-5">
+                <Button disabled={loading} className="my-4">
+                  {loading ? "Editing..." : "Edit"}
+                </Button>
+                <Button
+                  type="button"
+                  variant={"destructive"}
+                  onClick={() => {
+                    setIsEditOpen(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
             </form>
           </div>
         </div>
-        <AlertDialogFooter>
-          <Button
-            onClick={() => {
-              setIsEditOpen(false);
-            }}
-          >
-            Cancel
-          </Button>
-        </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );

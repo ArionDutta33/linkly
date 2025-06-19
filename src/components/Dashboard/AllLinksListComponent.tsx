@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
-
 import { ListFilter } from "lucide-react";
 import AllLinksCard from "./AllLinksCard";
-
 import useGetAllLinks from "@/hooks/useGetAllLinks";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { useAuth } from "@/provider/AuthProvider";
 import type { LinkType } from "@/types";
+
 const AllLinksListComponent = () => {
   const { allLinks, loading, error } = useGetAllLinks();
   const [links, setLinks] = useState<LinkType[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     if (allLinks.length > 0) {
       setLinks(allLinks);
     }
   }, [allLinks]);
-  const [searchTerm, setSeearchTerm] = useState("");
+
   const handleUpdate = (updatedLink: LinkType) => {
     setLinks((prev) =>
       prev.map((link) => (link.id === updatedLink.id ? updatedLink : link))
     );
   };
 
-  const fileteredLinks = links.filter((item) => {
+  const filteredLinks = links.filter((item) => {
     const link = item.link
       .toLowerCase()
       .includes(searchTerm.trim().toLowerCase());
@@ -35,7 +36,9 @@ const AllLinksListComponent = () => {
       .includes(searchTerm.trim().toLowerCase());
     return link || link_title || description;
   });
+
   const { token } = useAuth();
+
   const handleDelete = async (id: string) => {
     try {
       await api.delete(`/api/v1/link/${id}`, {
@@ -47,51 +50,58 @@ const AllLinksListComponent = () => {
       setLinks((prev) => prev.filter((item) => item.id !== parseInt(id)));
       toast.success("Link deleted");
     } catch (error) {
-      //change this
       toast.error("Unable to delete the link");
       console.log(error);
     }
   };
 
-  if (error) return <div>{error}</div>;
-  if (loading) return <div>loading.....</div>;
-  return (
-    <>
-      <div className=" ">
-        <div className="flex items-center justify-between  py-2 px-2  ">
-          <div className="text-base font-medium">Search for links</div>
+  if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
+  if (loading) return <div className="text-center p-8">Loading...</div>;
 
+  return (
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Search Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-medium">
+          Search for links
+        </h2>
+        <div className="w-full sm:w-auto">
           <input
             value={searchTerm}
-            onChange={(e) => setSeearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
             type="text"
-            className="outline-none w-[40vw] ml-auto mr-10 text-sm p-2 border rounded-sm"
-            placeholder="Search all"
+            className="w-full sm:w-64 md:w-80 outline-none text-sm p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder="Search all links..."
           />
-
-          <ListFilter size={22} />
-        </div>
-        {/* here; */}
-        <div className="grid my-6 grid-cols-4 gap-4">
-          {fileteredLinks.length > 0 ? (
-            fileteredLinks.map((item) => (
-              <AllLinksCard
-                onUpdate={handleUpdate}
-                onDelete={handleDelete}
-                item={item}
-                key={item.id}
-              />
-            ))
-          ) : (
-            <>
-              <div className="col-span-4 flex justify-center items-center   rounded-md p-6 text-gray-500 text-lg">
-                No links found
-              </div>
-            </>
-          )}
         </div>
       </div>
-    </>
+
+      {/* Links Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 py-6">
+        {filteredLinks.length > 0 ? (
+          filteredLinks.map((item) => (
+            <AllLinksCard
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
+              item={item}
+              key={item.id}
+            />
+          ))
+        ) : (
+          <div className="col-span-full flex flex-col items-center justify-center py-12 px-6">
+            <div className="text-gray-500 text-center">
+              <ListFilter className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+              <p className="text-lg font-medium mb-2">No links found</p>
+              <p className="text-sm text-gray-400">
+                {searchTerm
+                  ? "Try adjusting your search terms"
+                  : "Add some links to get started"}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

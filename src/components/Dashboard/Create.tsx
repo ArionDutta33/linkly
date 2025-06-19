@@ -20,7 +20,6 @@ export default function Create() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const [loading, setLoading] = useState(false);
@@ -52,10 +51,7 @@ export default function Create() {
     }
   };
 
-  console.log(watch("link")); // watch input value by passing the name of it
-
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <>
       <div className="  flex items-center justify-center">
         <div className="w-[40vw] mt-22">
@@ -65,26 +61,24 @@ export default function Create() {
           >
             <div className="space-y-4">
               <Label>Link title</Label>
-              {/* register your input into the hook by invoking the "register" function */}
-              <Input {...register("link_title", { required: true })} />
+              <Input
+                {...register("link_title", { max: 100, required: true })}
+              />
               {errors.link_title && (
                 <div className="text-red-500">This is a required field</div>
               )}
             </div>
 
-            {/* include validation with required or other standard HTML validation rules */}
             <div className="my-4 space-y-4">
               <Label>Paste the link </Label>
               <Input {...register("link", { required: true })} />
-              {/* errors will return when field validation fails  */}
               {errors.link && (
                 <span className="text-red-500">This field is required</span>
               )}
             </div>
             <div className="space-y-4">
               <Label>Give a short description </Label>
-              <Textarea {...register("description", { maxLength: 100 })} />
-              {/* errors will return when field validation fails  */}
+              <Textarea {...register("description", { maxLength: 150 })} />
               {errors.description && (
                 <span className="text-red-500">Character limit exceeded</span>
               )}
