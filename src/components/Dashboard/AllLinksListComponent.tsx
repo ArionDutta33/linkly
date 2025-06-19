@@ -6,12 +6,15 @@ import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { useAuth } from "@/provider/AuthProvider";
 import type { LinkType } from "@/types";
+import CustomLoader from "../Loader/CustomLoader";
+import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 
 const AllLinksListComponent = () => {
   const { allLinks, loading, error } = useGetAllLinks();
   const [links, setLinks] = useState<LinkType[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (allLinks.length > 0) {
       setLinks(allLinks);
@@ -54,9 +57,28 @@ const AllLinksListComponent = () => {
       console.log(error);
     }
   };
+  if (error)
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center flex flex-col gap-8 text-red-500 text-sm sm:text-base px-4">
+          Something went wrong. Please try again later.
+          <Button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Go to home
+          </Button>
+        </div>
+      </div>
+    );
 
-  if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
-  if (loading) return <div className="text-center p-8">Loading...</div>;
+  if (loading)
+    return (
+      <div className="fixed left-64 top-0 right-0 bottom-0 flex items-center justify-center z-50 overflow-hidden">
+        <CustomLoader loading={loading} />
+      </div>
+    );
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

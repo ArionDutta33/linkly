@@ -7,7 +7,6 @@ const Dashboard = () => {
     <SidebarProvider>
       <div className="flex h-screen w-full">
         {" "}
-        {/* Flex between sidebar and main */}
         <AppSidebar />
         <main className="flex-1 p-4 overflow-y-auto">
           <SidebarTrigger />

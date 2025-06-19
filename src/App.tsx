@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
 import CreatePage from "./pages/Dashboard/CreatePage";
 import PrivateRoute from "./pages/Dashboard/PrivateRoute";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="home" element={<DashboardHome />} />
         <Route path="create" element={<CreatePage />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

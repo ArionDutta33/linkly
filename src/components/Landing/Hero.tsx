@@ -1,6 +1,7 @@
 import { useTheme } from "../theme/theme-provider";
 import lightImage from "../../assets/images/lightimage.png";
 import darkImage from "../../assets/images/darkimage.png";
+import LinklyInfo from "../Loader/InfoComponent";
 const Hero = () => {
   const { theme } = useTheme();
   console.log(theme);
@@ -23,7 +24,9 @@ const Hero = () => {
           alt=""
         />
       </div>
-      <div>cehck</div>
+      <div>
+        <LinklyInfo />
+      </div>
     </div>
   );
 };

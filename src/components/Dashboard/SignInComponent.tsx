@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "../ui/button";
 import { useAuth } from "@/provider/AuthProvider";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
   username: string;
@@ -26,10 +27,12 @@ export default function SignInComponent({
   } = useForm<Inputs>({
     mode: "onChange",
   });
+  const navigate = useNavigate();
   const { login, loading } = useAuth();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       await login(data.username, data.password);
+      navigate("/dashboard/home");
       setShowAuthPopUp(false);
     } catch (error) {
       toast.error((error as Error).message);
