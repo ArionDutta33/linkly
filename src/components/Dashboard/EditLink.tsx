@@ -13,42 +13,54 @@ import { api } from "@/lib/api";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { toast } from "sonner";
+import axios from "axios";
+import { useAuth } from "@/provider/AuthProvider";
 type EditLinkProps = {
   item: LinkType;
+  onUpdate: (updated: LinkType) => void;
 };
 type Inputs = {
   link: string;
   link_title: string;
   description: string;
 };
-const EditLink: React.FC<EditLinkProps> = ({ item }) => {
+const EditLink: React.FC<EditLinkProps> = ({ item, onUpdate }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
   const [loading, setLoading] = useState(false);
+  const { token } = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
     try {
-      const response = await api.post("/api/v1/link", data, {
+      const response = await api.put(`/api/v1/link/${item.id}`, data, {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
-      console.log("response->", response);
+      console.log("Shape of response->", response.data);
+
+      onUpdate(response.data);
+      setIsEditOpen(false);
     } catch (error) {
-      //change this
-      console.log(error);
+      let errorMsg = "Something went wrong";
+      if (axios.isAxiosError(error)) {
+        errorMsg = error.response?.data?.details || "Something went wrong";
+      } else if (error instanceof Error) {
+        errorMsg = error.message || "Something went wrong";
+      }
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
   };
 
   const [isEditOpen, setIsEditOpen] = useState(false);
-  console.log("edit page->", item);
   return (
     <AlertDialog open={isEditOpen}>
       <AlertDialogTrigger asChild>

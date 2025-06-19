@@ -45,13 +45,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem("authtoken", response.data.token);
       setIsAuthenticated(true);
     } catch (error) {
-      let errorMsg = "Something went wrong";
       if (axios.isAxiosError(error)) {
-        errorMsg = error.response?.data?.message || error.message;
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
+        const apiError = error.response?.data;
+        throw new Error(
+          apiError?.details || apiError?.message || error.message
+        );
       }
-      throw new Error(errorMsg);
+
+      throw new Error("Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -70,13 +71,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         { headers: { "Content-Type": "application/json" } }
       );
     } catch (error) {
-      let errorMsg = "Something went wrong";
       if (axios.isAxiosError(error)) {
-        errorMsg = error.response?.data?.message || error.message;
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
+        const apiError = error.response?.data;
+        throw new Error(
+          apiError?.details || apiError?.message || error.message
+        );
       }
-      throw new Error(errorMsg);
+
+      throw new Error("Something went wrong");
     } finally {
       setLoading(false);
     }

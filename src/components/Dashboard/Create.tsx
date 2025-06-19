@@ -9,6 +9,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import axios from "axios";
 type Inputs = {
   link: string;
   link_title: string;
@@ -39,9 +40,13 @@ export default function Create() {
       console.log(response.data);
       console.log("response->", response);
     } catch (error) {
-      //change this
-      toast.error("Something went wrong");
-      console.log(error);
+      let errorMsg = "Something went wrong";
+      if (axios.isAxiosError(error)) {
+        errorMsg = error.response?.data?.details || "Something went wrong";
+      } else if (error instanceof Error) {
+        errorMsg = error.message || "Something went wrong";
+      }
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }

@@ -16,8 +16,13 @@ import DeleteLink from "./DeleteLink";
 type AllLinksCardProps = {
   item: LinkType;
   onDelete: (x: string) => Promise<void>;
+  onUpdate: (uodated: LinkType) => void;
 };
-const AllLinksCard: React.FC<AllLinksCardProps> = ({ item, onDelete }) => {
+const AllLinksCard: React.FC<AllLinksCardProps> = ({
+  item,
+  onDelete,
+  onUpdate,
+}) => {
   return (
     <Card className="w-[20vw] max-h-[20vw] ">
       <CardHeader>
@@ -37,7 +42,7 @@ const AllLinksCard: React.FC<AllLinksCardProps> = ({ item, onDelete }) => {
       </CardContent>
       <CardFooter className=" gap-4">
         {/* EDIT */}
-        <EditLink item={item} />
+        <EditLink item={item} onUpdate={onUpdate} />
 
         <DeleteLink itemId={item.id} onDelete={onDelete} />
       </CardFooter>

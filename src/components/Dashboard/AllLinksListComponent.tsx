@@ -17,6 +17,12 @@ const AllLinksListComponent = () => {
     }
   }, [allLinks]);
   const [searchTerm, setSeearchTerm] = useState("");
+  const handleUpdate = (updatedLink: LinkType) => {
+    setLinks((prev) =>
+      prev.map((link) => (link.id === updatedLink.id ? updatedLink : link))
+    );
+  };
+
   const fileteredLinks = links.filter((item) => {
     const link = item.link
       .toLowerCase()
@@ -69,7 +75,12 @@ const AllLinksListComponent = () => {
         <div className="grid my-6 grid-cols-4 gap-4">
           {fileteredLinks.length > 0 ? (
             fileteredLinks.map((item) => (
-              <AllLinksCard onDelete={handleDelete} item={item} key={item.id} />
+              <AllLinksCard
+                onUpdate={handleUpdate}
+                onDelete={handleDelete}
+                item={item}
+                key={item.id}
+              />
             ))
           ) : (
             <>

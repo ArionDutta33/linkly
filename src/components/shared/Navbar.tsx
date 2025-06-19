@@ -87,8 +87,25 @@ const Navbar = () => {
           <div className="flex items-center  gap-12">
             <ModeToggle />
             <div className="flex gap-4">
-              <Button>Sign In</Button>
-              <Button variant={"secondary"}>Sign Up</Button>
+              <Button
+                className="cursor-pointer"
+                onClick={() => {
+                  setCurrentTab("signin");
+                  setShowAuthPopUp(true);
+                }}
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => {
+                  setCurrentTab("signup");
+                  setShowAuthPopUp(true);
+                }}
+                variant={"secondary"}
+                className="cursor-pointer"
+              >
+                Sign Up
+              </Button>
             </div>
           </div>
         </>
