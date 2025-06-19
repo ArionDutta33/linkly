@@ -1,3 +1,58 @@
+
+
+# Linkly.io
+
+**Capture Every Link That Inspires, Informs, or Matters to You.**
+
+Linkly is a full-stack web application designed to help users save, organize, and manage useful internet links efficiently. From bookmarks to tools, Linkly keeps everything structured and easily accessible.
+
+---
+
+## ✨ Features
+
+- 🔐 **Authentication** – Secure login/logout using Spring Security and JWT.
+- 💾 **Save Links** – Store links with titles and descriptions.
+- ✏️ **Edit/Delete Links** – Manage your saved resources effortlessly.
+- 🔎 **Search & Filter** – Quickly find what you’re looking for.
+- 📱 **Responsive UI** – Sleek and modern interface that adapts across devices.
+- 🧑‍💻 **User-Specific Links** – Each user has access only to their own links.
+
+---
+
+## 🚀 Tech Stack
+
+### Frontend
+- [React.js](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Lucide Icons](https://lucide.dev/)
+
+### Backend
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Spring Security](https://spring.io/projects/spring-security) with JWT
+- [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Maven](https://maven.apache.org/) for dependency management
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+- Node.js and npm
+- Java 17+ and Maven
+- PostgreSQL running locally
+
+---
+ ## Screenshots
+ ![image](https://github.com/user-attachments/assets/9ece2a53-32b5-4226-a38f-b3a73a54dc49)
+
+![image](https://github.com/user-attachments/assets/0c28b3de-9fbc-435a-8c1e-fb66de4ae698)
+
+--- 
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
