@@ -28,7 +28,7 @@ export default function Create() {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
     try {
-      const response = await api.post("/api/v1/link", data, {
+      await api.post("/api/v1/link", data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -36,8 +36,6 @@ export default function Create() {
       });
       toast.success("Link added");
       navigation("/dashboard/home");
-      console.log(response.data);
-      console.log("response->", response);
     } catch (error) {
       let errorMsg = "Something went wrong";
       if (axios.isAxiosError(error)) {

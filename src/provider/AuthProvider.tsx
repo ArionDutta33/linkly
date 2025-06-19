@@ -39,7 +39,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         { username, password },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log(response.data);
       setUser(response.data);
       setToken(response.data.token);
       localStorage.setItem("authtoken", response.data.token);

@@ -42,7 +42,6 @@ const EditLink: React.FC<EditLinkProps> = ({ item, onUpdate }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Shape of response->", response.data);
 
       onUpdate(response.data);
       toast.success("Link edited");

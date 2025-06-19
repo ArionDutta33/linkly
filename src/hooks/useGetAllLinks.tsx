@@ -23,13 +23,10 @@ const useGetAllLinks = () => {
         setAllLinks(response.data);
       } catch (error) {
         if (error instanceof Error) {
-          console.log(error);
           setError(error.message ?? "Something went wrong");
         } else if (axios.isAxiosError(error)) {
-          console.log(error);
           setError(error.message ?? "Something went wrong");
         } else {
-          console.log(error);
           setError("Something went wrong");
         }
       } finally {

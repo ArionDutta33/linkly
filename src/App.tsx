@@ -5,8 +5,10 @@ import DashboardHome from "./pages/Dashboard/DashboardHome";
 import CreatePage from "./pages/Dashboard/CreatePage";
 import PrivateRoute from "./pages/Dashboard/PrivateRoute";
 import NotFound from "./pages/NotFound";
+import usePageTitle from "./hooks/usePageTitle";
 
 const App = () => {
+  usePageTitle();
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
